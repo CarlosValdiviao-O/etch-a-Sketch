@@ -6,17 +6,38 @@ let color = DEFAULT_COLOR;
 const container = document.getElementsByClassName('container');
 
 let colorPicked = document.querySelector('#colorPicker');
-colorPicked.addEventListener('input', () => color = colorPicked.value);
+colorPicked.addEventListener('input', () => {color = colorPicked.value;
+    rainbowMode=false;
+});
+colorPicked.addEventListener('click', () => {togglePressed(rainbowButton);
+    togglePressed(colorButton);
+    togglePressed(colorPicked);
+});
+
 let colorButton = document.querySelector('#color');
-colorButton.addEventListener('click', () => rainbowMode = false);
+colorButton.classList.toggle('pressed');
+colorButton.addEventListener('click', () => { togglePressed(rainbowButton);
+    togglePressed(colorButton);
+    togglePressed(colorPicked);
+    rainbowMode ? rainbowMode = false: rainbowMode = true
+});
 
 let opacityMode = false;
 let opacity = document.querySelector('#opacity');
-opacity.addEventListener('click', () => opacityMode ? opacityMode = false: opacityMode = true);
+opacity.addEventListener('click', () => { opacityMode ? opacityMode = false: opacityMode = true;
+    togglePressed(opacity)
+});
 
 let rainbowMode = false;
 let rainbowButton = document.querySelector('#rainbow');
-rainbowButton.addEventListener('click', () => (rainbowMode) ? rainbowMode = false: rainbowMode = true );
+rainbowButton.addEventListener('click', () => { rainbowMode ? rainbowMode = false: rainbowMode = true ;
+    togglePressed(rainbowButton);
+    togglePressed(colorButton);
+    togglePressed(colorPicked);
+});
+
+let clear = document.querySelector('#clear');
+clear.addEventListener('click', clearGrid);
 
 let slider = document.querySelector("#slider");
 slider.addEventListener('input', updateSizeBox);
@@ -27,8 +48,9 @@ sliderBox.addEventListener('mouseup',updateSize);
 let size = document.querySelector('#sizeBox');
 let sizeChangeAux = 10;
 
-let toggle = document.querySelector('#toggleGrid');
-toggle.addEventListener('click', toggleGrid);
+let toggGrid = document.querySelector('#toggleGrid');
+toggGrid.addEventListener('click', toggleGrid);
+toggGrid.classList.toggle('pressed');
 let toggleAux = false;
 
 createDivs (num);
@@ -51,6 +73,10 @@ function createDivs (num) {
     }
 }
 
+function togglePressed (e) {
+    e.classList.toggle('pressed');
+}
+
 function updateSizeBox() {
     size.textContent=`${slider.value}x${slider.value}`;
 }
@@ -67,14 +93,28 @@ function toggleGrid (){
     for (let i=0;i<slider.value*slider.value;i++){
         toggle[i].classList.toggle('noBorder'); 
     }
-    (toggleAux) ? toggleAux = false: toggleAux = true; 
+    if (toggleAux) {
+        toggleAux = false;
+        toggGrid.textContent = 'Grid Lines: ON';
+    }
+    else {
+        toggleAux = true;
+        toggGrid.textContent = 'Grid Lines: OFF';
+    } 
+    toggGrid.classList.toggle('pressed');
+}
+
+function clearGrid () {
+    container[0].innerHTML = '';
+    createDivs(slider.value);
+    sizeChangeAux=slider.value;
 }
 
 function changeColor(e){
     if (e.type === 'mouseover' && !clicked) return ;
     
     if (opacityMode) { 
-        if (e.target.style.backgroundColor.substr(0,4) == 'rgba') e.target.style.backgroundColor = increaseOpacity(e.target.style.backgroundColor);
+        if (e.target.style.backgroundColor.substr(0,4) == 'rgba') e.target.style.backgroundColor = decreaseOpacity(e.target.style.backgroundColor);
         else e.target.style.backgroundColor = toRGBA(e.target.style.backgroundColor);  
     
         if (rainbowMode && !e.target.style.backgroundColor) {
@@ -90,7 +130,7 @@ function changeColor(e){
         if (rainbowMode) {
             e.target.style.backgroundColor = toRainbow();
         }
-        else if (!e.target.style.backgroundColor){
+        else {
             e.target.style.backgroundColor = color;
         }
     }
@@ -102,15 +142,17 @@ function toRainbow(){
     let blue = Math.floor(Math.random() * 255);
     return `rgb(${red}, ${green}, ${blue})`;
 }
-//hasta aqui funciona
+
 function toRGBA (str) {
-    let newStr = `rgba(` + str.substring(4, (str.length-1)) + `, 0.1)`;
+    let newStr = `rgba(` + str.substring(4, (str.length-1)) + `, 0.9)`;
     return newStr;
 }
 
-function increaseOpacity (str) {
+function decreaseOpacity (str) {
     let newOpacity = str.substring(str.length-4, str.length-1);
-    newOpacity = (+newOpacity*10 + 1)/10;
+    newOpacity = (+newOpacity*10 - 1)/10;
+    if (newOpacity*10 < 2)
+    return `rgb(` + str.substring(5,str.length-6) + `)`;
     let newStr = str.substring(0, str.length-4) + newOpacity + `)`;
     return newStr;
 }

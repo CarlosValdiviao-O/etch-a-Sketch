@@ -3,12 +3,19 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 50px;
+    gap: 30px;
     flex-wrap: wrap;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-color: rgb(124, 235, 198);
 }
 
 #header {
     flex: 0 1 0;
+    font-size: 48px;
+    font-weight: bold;
+    padding-top: 30px;
+    color: blueviolet;
+    font-style: italic;
 }
 
 #core {
@@ -23,8 +30,19 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 24px;
     flex-wrap: wrap;
+    
+}
+
+button {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 20px;
+    border-radius: 8px;
+    border: 1px solid blueviolet;
+    color: blueviolet;
+    background-color: aqua;
+    padding: 8px 16px;
 }
 
 .container{
@@ -34,6 +52,8 @@ body {
     display: flex;
     box-sizing: border-box;
     flex: 0 0 auto;
+    background-color: white;
+    padding: 0;
 }
 
 .column > * {
@@ -50,4 +70,107 @@ body {
 
 .noBorder {
     border: 0px;
+}
+
+.pressed {
+    transform: scale(1.2);
+    background-color: blueviolet;
+    color: aqua;
+    border: 1px solid aqua;
+}
+
+#colorPicker {
+    padding: 0px;
+    background-color: blueviolet;
+    border: 0px;
+    border-radius: 8px;
+}
+
+#toggleGrid .pressed {
+    content: 'Grid Lines: ON';    
+}
+
+#colorPicker.pressed {
+    transform: scale(1.0);
+    background-color: aqua;
+    border: 0px;
+}
+
+#color {
+    display: flex;
+    flex-direction:column-reverse;
+}
+
+@media (max-width: 800px) {
+    .container {
+        width: 400px;
+        height: 400px;
+    }
+
+    button {
+        transform: scale(0.8);
+    }
+
+    .pressed {
+        transform: scale(1.0);
+    }
+
+    #buttons {
+        gap: 16px;
+    }
+
+    #core {
+        gap: 20px;
+    }
+}
+
+@media (max-width: 680px) {
+    .container {
+        width: 350px;
+        height: 350px;
+    }
+    
+    button {
+        transform: scale(0.7);
+    }
+    
+    .pressed {
+        transform: scale(0.9);
+    }
+
+    #buttons {
+        gap: 8px;
+    }
+
+    #core {
+        gap: 15px;
+    }
+}
+
+@media (max-width: 600px) {
+    .container {
+        width: 350px;
+        height: 350px;
+    }
+    
+    button {
+        transform: scale(0.7);
+    }
+    
+    .pressed {
+        transform: scale(0.9);
+    }
+
+    #buttons {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0px;
+    }
+
+    #core {
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: center;
+        align-items: center;
+    }
 }
