@@ -6,17 +6,24 @@ let color = DEFAULT_COLOR;
 const container = document.getElementsByClassName('container');
 
 let colorPicked = document.querySelector('#colorPicker');
-colorPicked.addEventListener('input', () => {color = colorPicked.value;
+colorPicked.addEventListener('input', () => {
+    color = colorPicked.value;
     rainbowMode=false;
 });
-colorPicked.addEventListener('click', () => {togglePressed(rainbowButton);
-    togglePressed(colorButton);
-    togglePressed(colorPicked);
+
+colorPicked.addEventListener('click', () => {
+    if (!rainbowMode){
+        rainbowMode = true;
+        togglePressed(rainbowButton);
+        togglePressed(colorButton);
+        togglePressed(colorPicked);
+    }
 });
 
 let colorButton = document.querySelector('#color');
 colorButton.classList.toggle('pressed');
-colorButton.addEventListener('click', () => { togglePressed(rainbowButton);
+colorButton.addEventListener('click', () => { 
+    togglePressed(rainbowButton);
     togglePressed(colorButton);
     togglePressed(colorPicked);
     rainbowMode ? rainbowMode = false: rainbowMode = true
@@ -24,7 +31,8 @@ colorButton.addEventListener('click', () => { togglePressed(rainbowButton);
 
 let opacityMode = false;
 let opacity = document.querySelector('#opacity');
-opacity.addEventListener('click', () => { opacityMode ? opacityMode = false: opacityMode = true;
+opacity.addEventListener('click', () => { 
+    opacityMode ? opacityMode = false: opacityMode = true;
     togglePressed(opacity)
 });
 
