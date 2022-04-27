@@ -168,3 +168,5 @@ function decreaseOpacity (str) {
 let clicked = false;
 document.body.onmousedown = () => (clicked = true);
 document.body.onmouseup = () => (clicked = false);
+
+//to add increasing darkness mode look into hsl color format and string.split()
